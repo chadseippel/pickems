@@ -240,7 +240,7 @@ async function loadData(winners, losers, games) {
 
     let total_title = document.createElement("td");
     total_row.appendChild(total_title);
-    total_title.innerHTML = "<font>"+ "Total" + "</font>";
+    total_title.innerHTML = "<font class=\"total_score\">"+ "Total" + "</font>";
 
     for (let player in json) {
         let total = document.createElement("td");
