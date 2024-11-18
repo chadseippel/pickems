@@ -1,0 +1,18 @@
+uploader
+	data validation
+		total points = same number
+	export picks to data file
+	update static html file
+
+javascript
+	read game data from third party api
+	match game data to picks
+
+html
+	read picks from data file
+
+server
+	serve static html file from server (azure credit?)
+
+
+npx http-server "C:/Users/chads/Desktop/pickems" -o -p 9999

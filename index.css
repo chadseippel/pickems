@@ -1,0 +1,30 @@
+.logo_game_completed {
+    filter: brightness(50%);
+ }
+
+ .logo {
+    width: 200px;
+    height: 200px;
+    vertical-align: middle;
+ }
+
+ .game {
+    height: 200px;
+    font-size: 32px;
+    width: 100%;
+ }
+
+ .game_wrapper {
+    text-align: center;
+    /* border: 3px solid green; */
+ }
+
+ .score {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 5px;
+ }
+
+ .game_status {
+    color:red;
+ }
