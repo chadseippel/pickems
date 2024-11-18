@@ -41,7 +41,7 @@ async function get_ESPN_team_data(url) {
 }
 
 async function get_ESPN_data() {
-    let response = await fetch('http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard');
+    let response = await fetch('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard');
     let responsejson = await response.json();
     let str = JSON.stringify(responsejson);
     let jsonData = JSON.parse(str);
