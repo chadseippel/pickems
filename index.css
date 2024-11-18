@@ -28,3 +28,15 @@
  .game_status {
     color:red;
  }
+
+ .total_score {
+   
+}
+
+.total_score {
+   font-weight: bold;
+}
+
+.player_title {
+   font-weight: bold;
+}

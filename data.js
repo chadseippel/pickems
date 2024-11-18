@@ -184,98 +184,82 @@ async function loadData(winners, losers, games) {
     let players_row = document.createElement("tr");
     tbody.appendChild(players_row);
 
-    let pick_title = document.createElement("td")
-    players_row.appendChild(pick_title);
-    pick_title.innerHTML = "<font>Pick</font>";
+    let total = document.createElement("td")
+    players_row.appendChild(total);
 
     for (let player in json) {
         let player_name = document.createElement("td")
         players_row.appendChild(player_name);
-        player_name.innerHTML = "<font>"+ player + "</font>";
+        player_name.innerHTML = "<font class=\"player_title\">"+ player + "</font>";
     }
 
     for (let i = 0; i < games.length; i++) {
         let pick_row = document.createElement("tr");
         tbody.appendChild(pick_row);
 
+        let filler = document.createElement("td");
+        pick_row.appendChild(filler);
+
         for (let player in json) {
             let pick_td = document.createElement("td")
             pick_row.appendChild(pick_td);
 
-            let pick = Object.keys(player)[i];
-            let score = player[pick];
-            pick_td.innerHTML = "<font>"+ pick + " - " + score + "</font>";
-        }
-    }
-
-    /*
-    const abbrevs = json[player][0].keys;
-
-    for (let i = 0; i < abbrevs.length; i++) {
-        let picks_row = document.createElement("tr");
-
-        for (let player in json)
-        {
             let picks = json[player];
-            let pick_value = picks[abbrevs[i]];
+            let pick = Object.keys(picks)[i];
+            let score = picks[pick];
 
-            let td = 
-        }
-    }     
-        */
-
-    /*
-    for (let i = 0; i < games.length; i++) {
-        var tr = document.createElement("tr");
-        tbody.appendChild(tr);
-
-        for (let player in json) {
-            //dataDiv.innerHTML += "<b>" + player + "</b>";
-            //dataDiv.innerHTML += "<br/>";
-
-            var td = document.createElement("td");
-            tr.appendChild(td);
-
-            let scores = json[player];
-            for (let pick in scores) {
-                let font_color = "black";
-
-                if (player_scores_max[player] == null)
-                {
-                    player_scores_max[player] = 0;
-                }
-
-                if (player_scores[player] == null)
-                {
-                    player_scores[player] = 0;
-                }
-
-                if (winners.includes(pick)) {
-                    font_color = "green";
-
-                    player_scores[player] = player_scores[player] + scores[pick];
-                    player_scores_max[player] = player_scores_max[player] + scores[pick];     
-                }
-                else if (losers.includes(pick))
-                {
-                    font_color = "red";
-                }
-                else
-                {
-                    player_scores_max[player] = player_scores_max[player] + scores[pick];
-                }
-
-                td.innerHTML += "<font color=\"" + font_color + "\">" + pick + " - " + scores[pick] + "</font>";
-                //dataDiv.innerHTML += "<br/>";
+            if (player_scores_max[player] == null) {
+                player_scores_max[player] = 0;
             }
-        }
 
-        dataDiv.innerHTML += "Total" + " = " + player_scores[player];
-        dataDiv.innerHTML += "<br/>";
-        dataDiv.innerHTML += "Total Possible" + " = " + player_scores_max[player];
-        dataDiv.innerHTML += "<br/><br/>";
+            if (player_scores[player] == null) {
+                player_scores[player] = 0;
+            }
+
+            if (winners.includes(pick)) {
+                font_color = "green";
+
+                player_scores[player] = player_scores[player] + score;
+                player_scores_max[player] = player_scores_max[player] + score;     
+            }
+            else if (losers.includes(pick))
+            {
+                font_color = "red";
+            }
+            else
+            {
+                player_scores_max[player] = player_scores_max[player] + score;
+            }
+
+            pick_td.innerHTML = "<font color=\"" + font_color + "\">" + pick + " - " + score + "</font>";
+        }
     }
 
-    document.body.appendChild(dataDiv);
-    */
+    let total_row = document.createElement("tr");
+    tbody.appendChild(total_row);
+
+    let total_title = document.createElement("td");
+    total_row.appendChild(total_title);
+    total_title.innerHTML = "<font>"+ "Total" + "</font>";
+
+    for (let player in json) {
+        let total = document.createElement("td");
+        total_row.appendChild(total);
+
+        total.innerHTML = "<font class=\"total_score\">"+ player_scores[player] + "</font>";
+    }
+
+    let total_possible_row = document.createElement("tr");
+    tbody.appendChild(total_possible_row);
+
+    let total_possible_title = document.createElement("td");
+    total_possible_row.appendChild(total_possible_title);
+    total_possible_title.innerHTML = "<font class=\"total_score\">"+ "Total Possible" + "</font>";
+
+    for (let player in json) {
+        let total = document.createElement("td");
+        total_possible_row.appendChild(total);
+
+        total.innerHTML = "<font class=\"total_score\">"+ player_scores_max[player] + "</font>";
+    }
 }
