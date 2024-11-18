@@ -56,6 +56,12 @@ async function display_games(winners, losers, games, teams) {
 
     items.forEach(async function (item, index) {
         let url = item["$ref"];
+
+        if (url.startsWith("http://"))
+        {
+            url = url.replace("http://", "https://");
+        }
+
         let team_data = await get_ESPN_team_data(url);
 
         let team = new Team;
