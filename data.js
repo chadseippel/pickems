@@ -180,6 +180,7 @@ async function loadData(winners, losers, games) {
 
     var tbody = document.createElement("tbody");
     table.appendChild(tbody);
+    table.style.textAlign = "center"; 
 
     let players_row = document.createElement("tr");
     tbody.appendChild(players_row);
@@ -200,7 +201,9 @@ async function loadData(winners, losers, games) {
         let filler = document.createElement("td");
         pick_row.appendChild(filler);
 
+        let count = 0;
         for (let player in json) {
+
             let pick_td = document.createElement("td")
             pick_row.appendChild(pick_td);
 
@@ -216,22 +219,34 @@ async function loadData(winners, losers, games) {
                 player_scores[player] = 0;
             }
 
+            let pick_class = "";
+            let cell_class = "";
+
+            if (count % 2 == 0) {
+                cell_class += "even_cell";
+            } else {
+                cell_class += "odd_cell";
+            }
+
+            count = count + 1;
+
             if (winners.includes(pick)) {
-                font_color = "green";
+                pick_class = " correct_pick"
 
                 player_scores[player] = player_scores[player] + score;
                 player_scores_max[player] = player_scores_max[player] + score;     
             }
             else if (losers.includes(pick))
             {
-                font_color = "red";
+                pick_class = " wrong_pick";
             }
             else
             {
                 player_scores_max[player] = player_scores_max[player] + score;
             }
 
-            pick_td.innerHTML = "<font color=\"" + font_color + "\">" + pick + " - " + score + "</font>";
+            pick_td.classList.add(cell_class);
+            pick_td.innerHTML = "<font class=\"" + pick_class + "\">" + pick + " - " + score + "</font>";
         }
     }
 

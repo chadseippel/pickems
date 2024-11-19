@@ -1,3 +1,8 @@
+body {
+   font-family: "Consolas", "Sans-Serif";
+   font-size: 16px;
+ }
+
 .logo_game_completed {
     filter: brightness(50%);
  }
@@ -29,8 +34,24 @@
     color:red;
  }
 
- .total_score {
-   
+ .wrong_pick {
+   color:red;
+}
+
+.correct_pick {
+   color:green;
+}
+
+.even_cell {
+   background-color: white;
+}
+
+.odd_cell {
+   background-color: lightgray;
+}
+
+.table_cell {
+   text-align: center;
 }
 
 .total_score {
