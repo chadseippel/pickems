@@ -1,0 +1,1 @@
+npx http-server "C:\Users\chads\Documents\GitHub\pickems" -o -p 9999
