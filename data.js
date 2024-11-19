@@ -12,6 +12,10 @@ let losers = [];
 
 let player_scores = {};
 let player_scores_max = {};
+let player_scores_imaginary = {};
+
+let all_picks = {};
+let team_abbrev_to_id_map = {};
 
 document.addEventListener('DOMContentLoaded', () => {    
     load();
@@ -71,6 +75,8 @@ async function display_games(winners, losers, games, teams) {
         team.logo_url = team_data["logos"][0]["href"];
 
         teams[team.id] = team;
+
+        team_abbrev_to_id_map[team.abbreviation] = team.id;
     });
 
     let json = await get_ESPN_data();
@@ -165,12 +171,11 @@ async function get_picks_data() {
     let str = JSON.stringify(responsejson);
     let jsonData = JSON.parse(str);
 
-    return jsonData;
+    all_picks = jsonData;
 }
 
 async function loadData(winners, losers, games) {
-    var json = await get_picks_data();
-    //console.log(json);
+    await get_picks_data();
 
     var dataDiv = document.createElement("div");
     document.body.appendChild(dataDiv);
@@ -181,6 +186,7 @@ async function loadData(winners, losers, games) {
     var tbody = document.createElement("tbody");
     table.appendChild(tbody);
     table.style.textAlign = "center"; 
+    table.style.width = "100%";
 
     let players_row = document.createElement("tr");
     tbody.appendChild(players_row);
@@ -188,7 +194,7 @@ async function loadData(winners, losers, games) {
     let total = document.createElement("td")
     players_row.appendChild(total);
 
-    for (let player in json) {
+    for (let player in all_picks) {
         let player_name = document.createElement("td")
         players_row.appendChild(player_name);
         player_name.innerHTML = "<font class=\"player_title\">"+ player + "</font>";
@@ -198,18 +204,21 @@ async function loadData(winners, losers, games) {
         let pick_row = document.createElement("tr");
         tbody.appendChild(pick_row);
 
-        let filler = document.createElement("td");
-        pick_row.appendChild(filler);
+        let matchup = find_game_for_pick(i);
+        let matchup_cell = document.createElement("td");
+        pick_row.appendChild(matchup_cell);
+
+        matchup_cell.innerHTML = "<font>" + matchup + "</font>";
 
         let count = 0;
-        for (let player in json) {
+        for (let player in all_picks) {
 
             let pick_td = document.createElement("td")
             pick_row.appendChild(pick_td);
 
-            let picks = json[player];
-            let pick = Object.keys(picks)[i];
-            let score = picks[pick];
+            let player_picks = all_picks[player];
+            let pick = Object.keys(player_picks)[i];
+            let score = player_picks[pick];
 
             if (player_scores_max[player] == null) {
                 player_scores_max[player] = 0;
@@ -217,6 +226,10 @@ async function loadData(winners, losers, games) {
 
             if (player_scores[player] == null) {
                 player_scores[player] = 0;
+            }
+
+            if (player_scores_imaginary[player] == null) {
+                player_scores_imaginary[player] = 0;
             }
 
             let pick_class = "";
@@ -234,7 +247,8 @@ async function loadData(winners, losers, games) {
                 pick_class = " correct_pick"
 
                 player_scores[player] = player_scores[player] + score;
-                player_scores_max[player] = player_scores_max[player] + score;     
+                player_scores_max[player] = player_scores_max[player] + score;
+                player_scores_imaginary[player] = player_scores_imaginary[player] + score;
             }
             else if (losers.includes(pick))
             {
@@ -257,7 +271,7 @@ async function loadData(winners, losers, games) {
     total_row.appendChild(total_title);
     total_title.innerHTML = "<font class=\"total_score\">"+ "Total" + "</font>";
 
-    for (let player in json) {
+    for (let player in all_picks) {
         let total = document.createElement("td");
         total_row.appendChild(total);
 
@@ -271,10 +285,42 @@ async function loadData(winners, losers, games) {
     total_possible_row.appendChild(total_possible_title);
     total_possible_title.innerHTML = "<font class=\"total_score\">"+ "Total Possible" + "</font>";
 
-    for (let player in json) {
+    for (let player in all_picks) {
         let total = document.createElement("td");
         total_possible_row.appendChild(total);
 
         total.innerHTML = "<font class=\"total_score\">"+ player_scores_max[player] + "</font>";
     }
+}
+
+function calculate_imaginary_score() {
+
+    const testElements = document.getElementsByClassName("total_score");
+
+    // on clicking the matchup winner
+    // find all picks with that winner
+    // add their points to the players imaginary total
+    // replace total with imaginary total
+    // change color - blue??
+
+}
+
+function find_game_for_pick(index) {
+
+    let pick = get_team_from_picks(index);
+
+    for (let i = 0; i < games.length; i++) {
+        if (teams[games[i].home_team].abbreviation == pick || teams[games[i].away_team].abbreviation == pick) {
+            return teams[games[i].away_team].abbreviation + " @ " + teams[games[i].home_team].abbreviation;
+        }
+    }
+}
+
+function get_team_from_picks(index) {
+
+    let player = Object.keys(all_picks)[0];
+    let player_picks = all_picks[player];
+    let pick = Object.keys(player_picks)[index];
+
+    return pick;
 }
