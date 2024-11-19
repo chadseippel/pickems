@@ -205,10 +205,17 @@ async function loadData(winners, losers, games) {
         tbody.appendChild(pick_row);
 
         let matchup = find_game_for_pick(i);
+        const teams = matchup.split('@');
+        let home = teams[0];
+        let away = teams[1];
+
         let matchup_cell = document.createElement("td");
         pick_row.appendChild(matchup_cell);
 
-        matchup_cell.innerHTML = "<font>" + matchup + "</font>";
+        let on_click_home = `onclick=\"calculate_imaginary_score(\'${home}\')\"`;
+        let on_click_away = `onclick=\"calculate_imaginary_score(\'${away}\')\"`;
+
+        matchup_cell.innerHTML = "<span " + on_click_away + ">" + away + "</span>" + " @ " + "<span " + on_click_home + ">" + home + "</span>";
 
         let count = 0;
         for (let player in all_picks) {
@@ -269,13 +276,13 @@ async function loadData(winners, losers, games) {
 
     let total_title = document.createElement("td");
     total_row.appendChild(total_title);
-    total_title.innerHTML = "<font class=\"total_score\">"+ "Total" + "</font>";
+    total_title.innerHTML = "<font class=\"total_score_title\">"+ "Total" + "</font>";
 
     for (let player in all_picks) {
         let total = document.createElement("td");
         total_row.appendChild(total);
 
-        total.innerHTML = "<font class=\"total_score\">"+ player_scores[player] + "</font>";
+        total.innerHTML = "<font id=\"" + player + "\"" + "class=\"total_score\">"+ player_scores[player] + "</font>";
     }
 
     let total_possible_row = document.createElement("tr");
@@ -283,19 +290,35 @@ async function loadData(winners, losers, games) {
 
     let total_possible_title = document.createElement("td");
     total_possible_row.appendChild(total_possible_title);
-    total_possible_title.innerHTML = "<font class=\"total_score\">"+ "Total Possible" + "</font>";
+    total_possible_title.innerHTML = "<font class=\"total_possible_title\">"+ "Total Possible" + "</font>";
 
     for (let player in all_picks) {
         let total = document.createElement("td");
         total_possible_row.appendChild(total);
 
-        total.innerHTML = "<font class=\"total_score\">"+ player_scores_max[player] + "</font>";
+        total.innerHTML = "<font class=\"total_possible\">"+ player_scores_max[player] + "</font>";
     }
 }
 
-function calculate_imaginary_score() {
+function calculate_imaginary_score(abbrev) {
 
-    const testElements = document.getElementsByClassName("total_score");
+    for (let player in all_picks) {
+        let player_picks = all_picks[player];
+        let score = player_picks[abbrev];
+
+        if (score) {
+            player_scores_imaginary[player] += score;
+        }
+    }
+
+    
+    //reload total score
+    const total_scores = document.getElementsByClassName("total_score");
+
+    for (let i = 0; i < total_scores.length; i++) {
+        total_scores[i].innerText = player_scores_imaginary[total_scores[i].id];
+        total_scores[i].style.color = "blue";
+    }
 
     // on clicking the matchup winner
     // find all picks with that winner
@@ -311,7 +334,7 @@ function find_game_for_pick(index) {
 
     for (let i = 0; i < games.length; i++) {
         if (teams[games[i].home_team].abbreviation == pick || teams[games[i].away_team].abbreviation == pick) {
-            return teams[games[i].away_team].abbreviation + " @ " + teams[games[i].home_team].abbreviation;
+            return teams[games[i].away_team].abbreviation + "@" + teams[games[i].home_team].abbreviation;
         }
     }
 }

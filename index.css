@@ -35,11 +35,11 @@ body {
  }
 
  .wrong_pick {
-   color:red;
+   color:darkred;
 }
 
 .correct_pick {
-   color:green;
+   color:darkgreen;
 }
 
 .even_cell {
