@@ -17,10 +17,13 @@ def read_matchups_for_person(data, column, all_picks, player):
     person_picks = {}
     column_name = "Unnamed: {0}".format(column)
     for index, row in data.iterrows():
-        #print(row["Unnamed: 0"], row[column_name])
-        if (math.isnan(row[column_name]) == False):
+        pick = row["Unnamed: 0"]
+        score = row[column_name]
+        print(pick, row)
+        if (score != ' ' and math.isnan(score) == False):
             #print(row[column_name])
-            person_picks[row["Unnamed: 0"]] = row[column_name]
+            #print(row)
+            person_picks[pick] = score
 
     #print(person_picks)
     all_picks[player] = person_picks
@@ -59,17 +62,17 @@ def replace_team_name_shorthand(data):
     data.replace('Jets', 'NYJ', inplace=True)
 
 
-sheet = pd.read_excel('picks.xlsx')
+sheet = pd.read_excel('./data/spreadsheets/week12.xlsx')
 #print(sheet)
 
 column0 = sheet['Unnamed: 0']
 #print(column0)
 
-current_week = sheet[sheet['Unnamed: 0'] == 'WEEK 11']
+current_week = sheet[sheet['Unnamed: 0'] == 'WEEK 12']
 current_week = current_week.index.values[0]
 #print (current_week)
 
-next_week = sheet[sheet['Unnamed: 0'] == 'WEEK 12']
+next_week = sheet[sheet['Unnamed: 0'] == 'WEEK 13']
 next_week = next_week.index.values[0]
 #print(next_week)
 
@@ -108,7 +111,7 @@ print(all_picks)
 
 json = json.dumps(all_picks)
 
-os.remove('data.txt')
+#os.remove('./data/week12.txt')
 
-with open('data.txt', 'a') as f:
+with open('./data/week12.txt', 'a') as f:
     print(json, file=f)
