@@ -29,6 +29,7 @@ def read_matchups_for_person(data, column, all_picks, player):
     all_picks[player] = person_picks
 
 def replace_team_name_shorthand(data):
+    data.replace('Bears', 'CHI', inplace=True)
     data.replace('Bills', 'BUF', inplace=True)
     data.replace('Commanders', 'WSH', inplace=True)
     data.replace('Eagles', 'PHI', inplace=True)
