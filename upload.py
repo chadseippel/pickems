@@ -69,11 +69,11 @@ sheet = pd.read_excel('./data/spreadsheets/week13.xlsx')
 column0 = sheet['Unnamed: 0']
 #print(column0)
 
-current_week = sheet[sheet['Unnamed: 0'] == 'WEEK 12']
+current_week = sheet[sheet['Unnamed: 0'] == 'WEEK 13']
 current_week = current_week.index.values[0]
 #print (current_week)
 
-next_week = sheet[sheet['Unnamed: 0'] == 'WEEK 13']
+next_week = sheet[sheet['Unnamed: 0'] == 'WEEK 14']
 next_week = next_week.index.values[0]
 #print(next_week)
 
