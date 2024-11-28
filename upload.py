@@ -63,7 +63,7 @@ def replace_team_name_shorthand(data):
     data.replace('Jets', 'NYJ', inplace=True)
 
 
-sheet = pd.read_excel('./data/spreadsheets/week12.xlsx')
+sheet = pd.read_excel('./data/spreadsheets/week13.xlsx')
 #print(sheet)
 
 column0 = sheet['Unnamed: 0']
@@ -114,5 +114,5 @@ json = json.dumps(all_picks)
 
 #os.remove('./data/week12.txt')
 
-with open('./data/week12.txt', 'a') as f:
+with open('./data/week13.txt', 'a') as f:
     print(json, file=f)
