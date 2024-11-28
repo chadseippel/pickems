@@ -58,7 +58,9 @@ async function display_games(winners, losers, games, teams) {
 
     let items = team_json["items"];
 
-    items.forEach(async function (item, index) {
+    for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+
         let url = item["$ref"];
 
         if (url.startsWith("http://"))
@@ -77,7 +79,7 @@ async function display_games(winners, losers, games, teams) {
         teams[team.id] = team;
 
         team_abbrev_to_id_map[team.abbreviation] = team.id;
-    });
+    }
 
     let json = await get_ESPN_data();
 
