@@ -194,6 +194,7 @@ async function loadData(winners, losers, games) {
     tbody.appendChild(players_row);
 
     let total = document.createElement("td")
+    total.innerText = "Click games below!!!";
     players_row.appendChild(total);
 
     for (let player in all_picks) {
