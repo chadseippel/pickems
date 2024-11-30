@@ -42,6 +42,18 @@ body {
    color:darkgreen;
 }
 
+.imaginary-pick {
+   color:blue;
+}
+
+.imaginary-score {
+   color:blue;
+}
+
+.winning_total {
+   background-color:yellow;
+}
+
 .even_cell {
    background-color: white;
 }

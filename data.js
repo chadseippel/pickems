@@ -217,7 +217,7 @@ async function loadData(winners, losers, games) {
         let on_click_home = `onclick=\"calculate_imaginary_score(\'${home}\')\"`;
         let on_click_away = `onclick=\"calculate_imaginary_score(\'${away}\')\"`;
 
-        matchup_cell.innerHTML = "<span " + on_click_away + ">" + away + "</span>" + " @ " + "<span " + on_click_home + ">" + home + "</span>";
+        matchup_cell.innerHTML = "<span id=\"matchup-" + away + "\"" + on_click_away + ">" + away + "</span>" + " @ " + "<span id=\"matchup-" + home + "\"" + on_click_home + ">" + home + "</span>";
 
         let count = 0;
         for (let player in all_picks) {
@@ -284,7 +284,7 @@ async function loadData(winners, losers, games) {
         let total = document.createElement("td");
         total_row.appendChild(total);
 
-        total.innerHTML = "<font id=\"" + player + "\"" + "class=\"total_score\">"+ player_scores[player] + "</font>";
+        total.innerHTML = "<font id=\"total_score_" + player + "\"" + "class=\"total_score\">"+ player_scores[player] + "</font>";
     }
 
     let total_possible_row = document.createElement("tr");
@@ -304,30 +304,61 @@ async function loadData(winners, losers, games) {
 
 function calculate_imaginary_score(abbrev) {
 
-    for (let player in all_picks) {
-        let player_picks = all_picks[player];
-        let score = player_picks[abbrev];
+    let imaginary_pick_element = document.getElementById("matchup-" + abbrev);
+    if (imaginary_pick_element.classList.contains("imaginary-pick")) {
 
-        if (score) {
-            player_scores_imaginary[player] += score;
+        for (let player in all_picks) {
+            let player_picks = all_picks[player];
+            let score = player_picks[abbrev];
+    
+            if (score) {
+                player_scores_imaginary[player] -= score;
+            }
+        }
+
+        imaginary_pick_element.classList.remove("imaginary-pick");
+    } else {
+
+        for (let player in all_picks) {
+            let player_picks = all_picks[player];
+            let score = player_picks[abbrev];
+    
+            if (score) {
+                player_scores_imaginary[player] += score;
+            }
+        }
+
+        imaginary_pick_element.classList.add("imaginary-pick");
+    }
+
+    //reload total score
+    const total_score_elements = document.getElementsByClassName("total_score");
+    const imaginary_picks = document.getElementsByClassName("imaginary-pick");
+
+    for (let i = 0; i < total_score_elements.length; i++) {
+        let player_id = total_score_elements[i].id.replace("total_score_", "");
+        total_score_elements[i].innerText = player_scores_imaginary[player_id];
+
+        if (imaginary_picks.length != 0) {
+            total_score_elements[i].classList.add("imaginary-score");
+        } else {
+            total_score_elements[i].classList.remove("imaginary-score");
         }
     }
 
-    
-    //reload total score
-    const total_scores = document.getElementsByClassName("total_score");
+    let existing_winning_player = document.querySelectorAll(".winning_total");
 
-    for (let i = 0; i < total_scores.length; i++) {
-        total_scores[i].innerText = player_scores_imaginary[total_scores[i].id];
-        total_scores[i].style.color = "blue";
+    for (let i = 0; i < existing_winning_player.length; i++) {
+        existing_winning_player[i].classList.remove("winning_total");
     }
 
-    // on clicking the matchup winner
-    // find all picks with that winner
-    // add their points to the players imaginary total
-    // replace total with imaginary total
-    // change color - blue??
+    let winning_players = get_winning_player();
+    let winning_players_array = winning_players.split(",");
 
+    for (let i = 0; i < winning_players_array.length; i++) {
+        let winning_player_total_element = document.getElementById("total_score_" + winning_players_array[i]);
+        winning_player_total_element.classList.add("winning_total");
+    }
 }
 
 function find_game_for_pick(index) {
@@ -348,4 +379,26 @@ function get_team_from_picks(index) {
     let pick = Object.keys(player_picks)[index];
 
     return pick;
+}
+
+function get_winning_player() {
+
+    let highest_player = "";
+    let highest = 0;
+
+    for (let player in all_picks) {
+        let score = player_scores_imaginary[player];
+
+        if (score) {
+            if (score > highest) {
+                highest = score;
+                highest_player = player;
+            } else if (score == highest) {
+                highest_player += ",";
+                highest_player += player;
+            }
+        }
+    }
+
+    return highest_player;
 }
