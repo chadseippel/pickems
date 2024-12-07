@@ -53,6 +53,15 @@ async function get_ESPN_data() {
     return jsonData;
 }
 
+async function get_ESPN_win_percentage(game_id) {
+    let response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=${game_id}`);
+    let responsejson = await response.json();
+    let str = JSON.stringify(responsejson);
+    let jsonData = JSON.parse(str);
+
+    return jsonData;
+}
+
 async function display_games(winners, losers, games, teams) {
     let team_json = await get_ESPN_teams_endpoints();
 
@@ -75,6 +84,7 @@ async function display_games(winners, losers, games, teams) {
         team.id = team_data["id"];
         team.abbreviation = team_data["abbreviation"];
         team.logo_url = team_data["logos"][0]["href"];
+        team.win_percentage = -1.0;
 
         teams[team.id] = team;
 
@@ -91,6 +101,7 @@ async function display_games(winners, losers, games, teams) {
     for (let i = 0; i < events.length; i++) {
         let game = new Game();
 
+        game.id = events[i]["id"];
         game.date = new Date(events[i]["date"])
 
         let status = events[i]["status"];
@@ -113,9 +124,9 @@ async function display_games(winners, losers, games, teams) {
             teams[team.id] = team;
 
             if (competitor["homeAway"] == "home") {
-                game.home_team = team.id;
+                game.home_team_id = team.id;
             } else {
-                game.away_team = team.id;
+                game.away_team_id = team.id;
             }
 
             if (competitor["winner"] != null) // winner object doesn't exist until game is over
@@ -133,6 +144,8 @@ async function display_games(winners, losers, games, teams) {
 
         games.push(game);
     }
+
+    //await calculate_winning_percentages();
 
     // priority
     //   1. games that are not finished
@@ -157,9 +170,9 @@ async function display_games(winners, losers, games, teams) {
         var game = document.createElement("div");
         game.setAttribute("class", "game");
 
-        game.innerHTML += "<img " + "class=\"logo" + (games[i].completed ? " logo_game_completed" : "") + "\"" + " src=\"" + teams[games[i].away_team].logo_url + "\">" + teams[games[i].away_team].display_name + " <span class=\"score\">" + teams[games[i].away_team].score + "</span>";
+        game.innerHTML += "<img " + "class=\"logo" + (games[i].completed ? " logo_game_completed" : "") + "\"" + " src=\"" + teams[games[i].away_team_id].logo_url + "\">" + teams[games[i].away_team_id].display_name + " <span class=\"score\">" + teams[games[i].away_team_id].score + "</span>";
         game.innerHTML += " <span class=\"game_status\">" + games[i].status + "</span> ";
-        game.innerHTML += "<span class=\"score\">" + teams[games[i].home_team].score + "</span>" + "<img " + "class=\"logo" + (games[i].completed ? " logo_game_completed" : "") + "\"" + " src=\"" + teams[games[i].home_team].logo_url + "\">" + teams[games[i].home_team].display_name;
+        game.innerHTML += "<span class=\"score\">" + teams[games[i].home_team_id].score + "</span>" + "<img " + "class=\"logo" + (games[i].completed ? " logo_game_completed" : "") + "\"" + " src=\"" + teams[games[i].home_team_id].logo_url + "\">" + teams[games[i].home_team_id].display_name;
 
         game_wrapper.appendChild(game);
     }
@@ -168,7 +181,7 @@ async function display_games(winners, losers, games, teams) {
 }
 
 async function get_picks_data() {
-    let response = await fetch('/data/week13.txt');
+    let response = await fetch('/data/week14.txt');
     let responsejson = await response.json();
     let str = JSON.stringify(responsejson);
     let jsonData = JSON.parse(str);
@@ -303,6 +316,38 @@ async function loadData(winners, losers, games) {
     }
 }
 
+async function calculate_winning_percentages() {
+    // load win percentages
+    for (let i = 0; i < games.length; i++) {
+
+        let win_percentage_json = await get_ESPN_win_percentage(games[i].id);
+
+        if (win_percentage_json["winprobability"]) {
+            win_percentage_json = win_percentage_json["winprobability"]
+            win_percentage_json = win_percentage_json[win_percentage_json.length - 1];
+
+            let home_win_percentage = win_percentage_json["homeWinPercentage"];
+            games[i].home_win_percentage = home_win_percentage;
+            games[i].away_win_percentage = 1 - home_win_percentage;
+
+            teams[games[i].home_team_id].win_percentage = home_win_percentage;
+            teams[games[i].away_team_id].win_percentage = 1 - home_win_percentage;
+        } else {
+            win_percentage_json = win_percentage_json["predictor"]["homeTeam"]["gameProjection"];
+
+            if (win_percentage_json) {
+                let home_win_percentage = parseInt(win_percentage_json);
+
+                games[i].home_win_percentage = home_win_percentage;
+                games[i].away_win_percentage = 1 - home_win_percentage;
+    
+                teams[games[i].home_team_id].win_percentage = home_win_percentage;
+                teams[games[i].away_team_id].win_percentage = 1 - home_win_percentage;
+            }
+        }
+    }
+}
+
 function calculate_imaginary_score(abbrev) {
 
     let imaginary_pick_element = document.getElementById("matchup-" + abbrev);
@@ -367,8 +412,8 @@ function find_game_for_pick(index) {
     let pick = get_team_from_picks(index);
 
     for (let i = 0; i < games.length; i++) {
-        if (teams[games[i].home_team].abbreviation == pick || teams[games[i].away_team].abbreviation == pick) {
-            return teams[games[i].away_team].abbreviation + "@" + teams[games[i].home_team].abbreviation;
+        if (teams[games[i].home_team_id].abbreviation == pick || teams[games[i].away_team_id].abbreviation == pick) {
+            return teams[games[i].away_team_id].abbreviation + "@" + teams[games[i].home_team_id].abbreviation;
         }
     }
 }
