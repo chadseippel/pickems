@@ -63,17 +63,17 @@ def replace_team_name_shorthand(data):
     data.replace('Jets', 'NYJ', inplace=True)
 
 
-sheet = pd.read_excel('./data/spreadsheets/week14.xlsx')
+sheet = pd.read_excel('./data/spreadsheets/year2/week1.xlsx')
 #print(sheet)
 
 column0 = sheet['Unnamed: 0']
 #print(column0)
 
-current_week = sheet[sheet['Unnamed: 0'] == 'WEEK 14']
+current_week = sheet[sheet['Unnamed: 0'] == 'WEEK 1']
 current_week = current_week.index.values[0]
 #print (current_week)
 
-next_week = sheet[sheet['Unnamed: 0'] == 'WEEK 15']
+next_week = sheet[sheet['Unnamed: 0'] == 'WEEK 2']
 next_week = next_week.index.values[0]
 #print(next_week)
 
