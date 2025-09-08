@@ -222,8 +222,8 @@ async function loadData(winners, losers, games) {
 
         let matchup = find_game_for_pick(i);
         const teams = matchup.split('@');
-        let home = teams[0];
-        let away = teams[1];
+        let home = teams[1];
+        let away = teams[0];
 
         let matchup_cell = document.createElement("td");
         pick_row.appendChild(matchup_cell);
