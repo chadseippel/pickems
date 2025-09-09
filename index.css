@@ -8,20 +8,24 @@ body {
  }
 
  .logo {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     vertical-align: middle;
  }
 
  .game {
     height: 200px;
-    font-size: 32px;
-    width: 100%;
+    font-size: 24px;
+    width: 50%;
  }
 
- .game_wrapper {
+ .games_wrapper {
     text-align: center;
     /* border: 3px solid green; */
+ }
+
+ .game_row {
+   display: flex;
  }
 
  .score {

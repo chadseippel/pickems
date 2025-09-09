@@ -93,8 +93,8 @@ async function display_games(winners, losers, games, teams) {
 
     let json = await get_ESPN_data();
 
-    var game_wrapper = document.createElement("div");
-    game_wrapper.setAttribute("class", "game_wrapper");
+    var games_wrapper = document.createElement("div");
+    games_wrapper.setAttribute("class", "games_wrapper");
 
     let events = json["events"];
 
@@ -165,7 +165,12 @@ async function display_games(winners, losers, games, teams) {
     });
 
     for (let i = 0; i < games.length; i++) {
-        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var game_row;
+        if (i % 2 == 0) {
+            game_row = document.createElement("div");
+            game_row.setAttribute("class", "game_row");
+            games_wrapper.appendChild(game_row);
+        }
 
         var game = document.createElement("div");
         game.setAttribute("class", "game");
@@ -174,10 +179,10 @@ async function display_games(winners, losers, games, teams) {
         game.innerHTML += " <span class=\"game_status\">" + games[i].status + "</span> ";
         game.innerHTML += "<span class=\"score\">" + teams[games[i].home_team_id].score + "</span>" + "<img " + "class=\"logo" + (games[i].completed ? " logo_game_completed" : "") + "\"" + " src=\"" + (teams[games[i].home_team_id].display_name == 'Lions' ? "images/cleo.png" : teams[games[i].home_team_id].logo_url) + "\">" + teams[games[i].home_team_id].display_name;
 
-        game_wrapper.appendChild(game);
+        game_row.appendChild(game);
     }
 
-    document.body.appendChild(game_wrapper);
+    document.body.appendChild(games_wrapper);
 }
 
 async function get_picks_data() {
