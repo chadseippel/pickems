@@ -244,6 +244,10 @@ async function loadData(winners, losers, games) {
             let pick = Object.keys(player_picks)[i];
             let score = player_picks[pick];
 
+            if (score == null) {
+                score = 0;
+            }
+
             if (player_scores_max[player] == null) {
                 player_scores_max[player] = 0;
             }
