@@ -63,17 +63,17 @@ def replace_team_name_shorthand(data):
     data.replace('Jets', 'NYJ', inplace=True)
 
 
-sheet = pd.read_excel('./data/spreadsheets/year2/week1.xlsx')
+sheet = pd.read_excel('./data/spreadsheets/2025/week2.xlsx')
 #print(sheet)
 
 column0 = sheet['Unnamed: 0']
 #print(column0)
 
-current_week = sheet[sheet['Unnamed: 0'] == 'WEEK 1']
+current_week = sheet[sheet['Unnamed: 0'] == 'WEEK 2']
 current_week = current_week.index.values[0]
 #print (current_week)
 
-next_week = sheet[sheet['Unnamed: 0'] == 'WEEK 2']
+next_week = sheet[sheet['Unnamed: 0'] == 'WEEK 3']
 next_week = next_week.index.values[0]
 #print(next_week)
 
@@ -114,5 +114,5 @@ json = json.dumps(all_picks)
 
 #os.remove('./data/week12.txt')
 
-with open('./data/year2/week1.txt', 'a') as f:
+with open('./data/2025/week2.txt', 'a') as f:
     print(json, file=f)
