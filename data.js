@@ -248,6 +248,10 @@ async function loadData(winners, losers, games) {
                 score = 0;
             }
 
+            if (pick == null) {
+                pick = "";
+            }
+
             if (player_scores_max[player] == null) {
                 player_scores_max[player] = 0;
             }
@@ -288,7 +292,13 @@ async function loadData(winners, losers, games) {
             }
 
             pick_td.classList.add(cell_class);
-            pick_td.innerHTML = "<font class=\"" + pick_class + "\">" + pick + " - " + score + "</font>";
+
+            if (pick == "" && score == 0) {
+                pick_td.innerHTML = "<font class=\"" + pick_class + "\">" + "0" + "</font>";
+            }
+            else {
+                pick_td.innerHTML = "<font class=\"" + pick_class + "\">" + pick + " - " + score + "</font>";
+            }
         }
     }
 
