@@ -15,7 +15,8 @@ div {
    grid-template-columns: 10% 90%;
    grid-template-areas:
    "header header"
-   "sidebar content"
+   "sidebar games"
+   "sidebar picks"
    "footer  footer";
 }
 
@@ -54,13 +55,13 @@ div {
  }
 
  #games_wrapper {
-    grid-area: content;
+    grid-area: games;
     /* text-align: center; */
     /* border: 3px solid green; */
  }
 
  #picks {
-   grid-area: content;
+   grid-area: picks;
  }
 
  .game_row {
