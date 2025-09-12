@@ -93,8 +93,7 @@ async function display_games(winners, losers, games, teams) {
 
     let json = await get_ESPN_data();
 
-    var games_wrapper = document.createElement("div");
-    games_wrapper.setAttribute("class", "games_wrapper");
+    var games_wrapper = document.getElementById("games_wrapper");
 
     let events = json["events"];
 
@@ -181,12 +180,10 @@ async function display_games(winners, losers, games, teams) {
 
         game_row.appendChild(game);
     }
-
-    document.body.appendChild(games_wrapper);
 }
 
 async function get_picks_data() {
-    let response = await fetch('/data/year2/week1.txt');
+    let response = await fetch('/data/2025/week1.txt');
     let responsejson = await response.json();
     let str = JSON.stringify(responsejson);
     let jsonData = JSON.parse(str);
@@ -197,8 +194,7 @@ async function get_picks_data() {
 async function loadData(winners, losers, games) {
     await get_picks_data();
 
-    var dataDiv = document.createElement("div");
-    document.body.appendChild(dataDiv);
+    var dataDiv = document.getElementById("picks");
 
     var table = document.createElement("table");
     dataDiv.appendChild(table);
