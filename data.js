@@ -174,9 +174,9 @@ async function display_games(winners, losers, games, teams) {
         var game = document.createElement("div");
         game.setAttribute("class", "game");
 
-        game.innerHTML += "<img " + "class=\"logo" + (games[i].completed ? " logo_game_completed" : "") + "\"" + " src=\"" + (teams[games[i].away_team_id].display_name == 'Lions' ? "images/cleo.png" : teams[games[i].away_team_id].logo_url) + "\">" + teams[games[i].away_team_id].display_name + " <span class=\"score\">" + teams[games[i].away_team_id].score + "</span>";
+        game.innerHTML += "<img " + "class=\"logo" + (games[i].completed ? " logo_game_completed" : "") + "\"" + " src=\"" + (teams[games[i].away_team_id].display_name == 'Lions' ? "images/cleo.png" : teams[games[i].away_team_id].logo_url) + "\">" + teams[games[i].away_team_id].abbreviation + " <span class=\"score\">" + teams[games[i].away_team_id].score + "</span>";
         game.innerHTML += " <span class=\"game_status\">" + games[i].status + "</span> ";
-        game.innerHTML += "<span class=\"score\">" + teams[games[i].home_team_id].score + "</span>" + "<img " + "class=\"logo" + (games[i].completed ? " logo_game_completed" : "") + "\"" + " src=\"" + (teams[games[i].home_team_id].display_name == 'Lions' ? "images/cleo.png" : teams[games[i].home_team_id].logo_url) + "\">" + teams[games[i].home_team_id].display_name;
+        game.innerHTML += "<span class=\"score\">" + teams[games[i].home_team_id].score + "</span>" + "<img " + "class=\"logo" + (games[i].completed ? " logo_game_completed" : "") + "\"" + " src=\"" + (teams[games[i].home_team_id].display_name == 'Lions' ? "images/cleo.png" : teams[games[i].home_team_id].logo_url) + "\">" + teams[games[i].home_team_id].abbreviation;
 
         game_row.appendChild(game);
     }
