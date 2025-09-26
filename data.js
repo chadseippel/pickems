@@ -17,6 +17,8 @@ let player_scores_imaginary = {};
 let all_picks = {};
 let team_abbrev_to_id_map = {};
 
+const WEEK = '4';
+
 document.addEventListener('DOMContentLoaded', () => {    
     load();
 });
@@ -183,7 +185,7 @@ async function display_games(winners, losers, games, teams) {
 }
 
 async function get_picks_data() {
-    let response = await fetch('/data/2025/week3.txt');
+    let response = await fetch('/data/2025/week' + WEEK +'.txt');
     let responsejson = await response.json();
     let str = JSON.stringify(responsejson);
     let jsonData = JSON.parse(str);
