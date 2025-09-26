@@ -17,7 +17,7 @@ let player_scores_imaginary = {};
 let all_picks = {};
 let team_abbrev_to_id_map = {};
 
-const WEEK = '4';
+const WEEK = document.currentScript.dataset.nflWeek;
 
 document.addEventListener('DOMContentLoaded', () => {    
     load();
