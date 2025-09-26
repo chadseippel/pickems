@@ -24,8 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function load() {
-    await display_games(winners, losers, games, teams);
-    await loadData(winners, losers, games);
+    try {
+        const results = await Promise.all([display_games(winners, losers, games, teams), loadData(winners, losers, games)]);
+    } catch (error) {
+        console.error("Failed to load: ", error);
+    }
 }
 
 async function get_ESPN_teams_endpoints() {
