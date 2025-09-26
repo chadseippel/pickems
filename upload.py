@@ -62,24 +62,36 @@ def replace_team_name_shorthand(data):
     data.replace('Dolphins', 'MIA', inplace=True)
     data.replace('Jets', 'NYJ', inplace=True)
 
+week = 0
 
-sheet = pd.read_excel('./data/spreadsheets/2025/week3.xlsx')
+if len(sys.argv) > 1:
+    week = int(sys.argv[1])
+
+if (week == 0):
+    exit(0)
+
+next_week = week + 1
+
+week_str = str(week)
+next_week_str = str(next_week)
+
+sheet = pd.read_excel('./data/spreadsheets/2025/week' + week_str + '.xlsx')
 #print(sheet)
 
 column0 = sheet['Unnamed: 0']
 #print(column0)
 
-current_week = sheet[sheet['Unnamed: 0'] == 'WEEK 3']
-current_week = current_week.index.values[0]
+current_week_data = sheet[sheet['Unnamed: 0'] == 'WEEK ' + week_str]
+current_week_data = current_week_data.index.values[0]
 #print (current_week)
 
-next_week = sheet[sheet['Unnamed: 0'] == 'WEEK 4']
-next_week = next_week.index.values[0]
+next_week_data = sheet[sheet['Unnamed: 0'] == 'WEEK ' + next_week_str]
+next_week_data = next_week_data.index.values[0]
 #print(next_week)
 
 #week_data = sheet.iloc[[current_week.index.values.astype(int)[0], next_week.index.values.astype(int)[0]]]
 #week_data = sheet.iloc[406, 403]
-week_data = sheet[current_week: next_week]
+week_data = sheet[current_week_data: next_week_data]
 
 #print(week_data)
 
@@ -112,7 +124,8 @@ print(all_picks)
 
 json = json.dumps(all_picks)
 
-#os.remove('./data/week12.txt')
+if os.path.exists('./data/2025/week' + week_str + '.txt'):
+    os.remove('./data/2025/week' + week_str + '.txt')
 
-with open('./data/2025/week3.txt', 'a') as f:
+with open('./data/2025/week' + week_str +'.txt', 'a') as f:
     print(json, file=f)
