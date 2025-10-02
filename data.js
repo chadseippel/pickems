@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function load() {
     try {
-        await display_games(winners, losers, games, teams)
+        await display_games(winners, losers, games, teams);
         await loadData(winners, losers, games); // need to wait for ESPN API to return team info to get matchups
     } catch (error) {
         console.error("Failed to load: ", error);
