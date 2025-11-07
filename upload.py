@@ -100,7 +100,7 @@ teams = {"Bills", "Dolphins", "Pats", "Jets", "Ravens", "Bengals", "Browns", "St
          "Vikings", "Falcons", "Panthers", "Saints", "Bucs", "Cards", "Rams", "Niners", "Seahawks", "Chiefs"}
 
 players = ["Ron","Danny","Tom","Rick","Leslie","Tyler","Cindy","Denny","Nick E","Ray","Sue","Kurt Deuce",
-                  "Randy","Alex","Kurt G","Chelsea","Chad","Sally","Emma","Sarah","Steve","Zack","Dan P","Paul"]
+                  "Randy","Alex","Kurt G","Chelsea","Chad","Sally","Emma","Sarah","Steve","Dan P","Paul"]
 
 #week_data = week_data.rename(columns={"Unnamed: 0 ": "Matchup", "Unnamed: 2": "Ron"})
 
