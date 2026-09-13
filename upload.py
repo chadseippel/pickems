@@ -75,7 +75,7 @@ next_week = week + 1
 week_str = str(week)
 next_week_str = str(next_week)
 
-sheet = pd.read_excel('./data/spreadsheets/2025/week' + week_str + '.xlsx')
+sheet = pd.read_excel('./data/spreadsheets/2026/week' + week_str + '.xlsx')
 #print(sheet)
 
 column0 = sheet['Unnamed: 0']
@@ -99,8 +99,7 @@ teams = {"Bills", "Dolphins", "Pats", "Jets", "Ravens", "Bengals", "Browns", "St
          "Titans", "Broncos", "Raiders", "Chargers", "Cowboys", "Giants", "Eagles", "Commanders", "Bears", "Lions", "Packers",
          "Vikings", "Falcons", "Panthers", "Saints", "Bucs", "Cards", "Rams", "Niners", "Seahawks", "Chiefs"}
 
-players = ["Ron","Danny","Tom","Rick","Leslie","Tyler","Cindy","Denny","Nick E","Ray","Sue","Kurt Deuce",
-                  "Randy","Alex","Kurt G","Chelsea","Chad","Sally","Emma","Sarah","Steve","Dan P","Paul"]
+players = ["Ron", "Tom", "Rick", "Leslie", "Cindy", "Denny", "Nick E", "Ray", "Sue", "Kurt", "Randy", "Kurt G", "Chelsea", "Chad", "Sally", "Emma", "Sarah", "Steve", "Stephanie", "Mike S", "Gary", "Paul"]
 
 #week_data = week_data.rename(columns={"Unnamed: 0 ": "Matchup", "Unnamed: 2": "Ron"})
 
@@ -124,8 +123,8 @@ print(all_picks)
 
 json = json.dumps(all_picks)
 
-if os.path.exists('./data/2025/week' + week_str + '.txt'):
-    os.remove('./data/2025/week' + week_str + '.txt')
+if os.path.exists('./data/2026/week' + week_str + '.txt'):
+    os.remove('./data/2026/week' + week_str + '.txt')
 
-with open('./data/2025/week' + week_str +'.txt', 'a') as f:
+with open('./data/2026/week' + week_str +'.txt', 'a') as f:
     print(json, file=f)

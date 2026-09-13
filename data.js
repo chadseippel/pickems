@@ -189,7 +189,7 @@ async function display_games(winners, losers, games, teams) {
 }
 
 async function get_picks_data() {
-    let response = await fetch('/data/2025/week' + WEEK +'.txt');
+    let response = await fetch('/data/2026/week' + WEEK +'.txt');
     let responsejson = await response.json();
     let str = JSON.stringify(responsejson);
     let jsonData = JSON.parse(str);
