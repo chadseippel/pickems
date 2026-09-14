@@ -220,7 +220,13 @@ async function loadData(winners, losers, games) {
     for (let player in all_picks) {
         let player_name = document.createElement("td")
         players_row.appendChild(player_name);
-        player_name.innerHTML = "<font class=\"player_title\">"+ player + "</font>";
+
+        if (player_name == 'Gary') {
+            player_name.innerHTML = "<font class=\"player_title\">"+ player + "</font><img src=\"images/gary.svg\" alt=\"description\">";
+        }
+        else {
+            player_name.innerHTML = "<font class=\"player_title\">"+ player + "</font>";
+        }
     }
 
     for (let i = 0; i < games.length; i++) {
