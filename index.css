@@ -117,3 +117,8 @@ div {
 .player_title {
    font-weight: bold;
 }
+
+img {
+  max-width: 25px;
+  max-height: 25px;
+}
