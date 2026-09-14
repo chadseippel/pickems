@@ -221,7 +221,7 @@ async function loadData(winners, losers, games) {
         let player_name = document.createElement("td")
         players_row.appendChild(player_name);
 
-        if (player_name == 'Gary') {
+        if (player == 'Gary') {
             player_name.innerHTML = "<font class=\"player_title\">"+ player + "</font><img src=\"images/gary.svg\" alt=\"description\" class=\"name_decor\">";
         }
         else {
