@@ -99,7 +99,7 @@ teams = {"Bills", "Dolphins", "Pats", "Jets", "Ravens", "Bengals", "Browns", "St
          "Titans", "Broncos", "Raiders", "Chargers", "Cowboys", "Giants", "Eagles", "Commanders", "Bears", "Lions", "Packers",
          "Vikings", "Falcons", "Panthers", "Saints", "Bucs", "Cards", "Rams", "Niners", "Seahawks", "Chiefs"}
 
-players = ["Ron", "Tom", "Rick", "Leslie", "Cindy", "Denny", "Nick E", "Ray", "Sue", "Kurt", "Randy", "Kurt G", "Chelsea", "Chad", "Sally", "Emma", "Sarah", "Steve", "Stephanie", "Mike S", "Gary", "Paul"]
+players = ["Ron", "Tom", "Rick", "Leslie", "Cindy", "Denny", "Nick E", "Ray", "Sue", "Kurt", "Randy", "Kurt G", "Chelsea", "Chad", "Sally", "Emma", "Sarah", "Steve", "Stephanie", "Mike S", "Paul"]
 
 #week_data = week_data.rename(columns={"Unnamed: 0 ": "Matchup", "Unnamed: 2": "Ron"})
 
