@@ -55,7 +55,7 @@ def replace_team_name_shorthand(data):
     data.replace('Texans', 'HOU', inplace=True)
     data.replace('Cowboys', 'DAL', inplace=True)
     data.replace('Giants', 'NYG', inplace=True)
-    data.replace('Cards', 'ARI', inplace=True)
+    data.replace('Cardinals', 'ARI', inplace=True)
     data.replace('Bucs', 'TB', inplace=True)
     data.replace('Panthers', 'CAR', inplace=True)
     data.replace('Lions', 'DET', inplace=True)
@@ -97,7 +97,7 @@ week_data = sheet[current_week_data: next_week_data]
 
 teams = {"Bills", "Dolphins", "Pats", "Jets", "Ravens", "Bengals", "Browns", "Steelers" , "Texans", "Colts", "Jags",
          "Titans", "Broncos", "Raiders", "Chargers", "Cowboys", "Giants", "Eagles", "Commanders", "Bears", "Lions", "Packers",
-         "Vikings", "Falcons", "Panthers", "Saints", "Bucs", "Cards", "Rams", "Niners", "Seahawks", "Chiefs"}
+         "Vikings", "Falcons", "Panthers", "Saints", "Bucs", "Cardinals", "Rams", "Niners", "Seahawks", "Chiefs"}
 
 players = ["Ron", "Tom", "Rick", "Leslie", "Cindy", "Denny", "Nick E", "Ray", "Sue", "Kurt", "Randy", "Kurt G", "Chelsea", "Chad", "Sally", "Emma", "Sarah", "Steve", "Stephanie", "Mike S", "Paul"]
 
